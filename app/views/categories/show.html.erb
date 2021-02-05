@@ -1,9 +1,11 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Cname:</strong>
-  <%= @category.cname %>
-</p>
+
+<h1><%= @category.cname %></h1>
+<% Blog.where(category_id: @category.id).each do |blog| %>
+<li> <%= link_to blog.title,blog%> </li><br>
+
+<% end %>
 
 <%= link_to 'Edit', edit_category_path(@category) %> |
 <%= link_to 'Back', categories_path %>
