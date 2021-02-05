@@ -6,20 +6,21 @@ class SessionController < ApplicationController
 
   def create
     user = User.find_by(username: params[:session][:username])
-    # if user && user.password == ( params[:session][:password] )
+    if user && user.password == ( params[:session][:password] )
     # Log the user in and redirect to the user's show page.
     # @token = @user.auth_token
-    # user.auth_token = SecureRandom.hex
-    # session[ :user_id ] = user.id
-    # user.save
-    # session[ :auth_token ] = user.auth_token
+       user.token = SecureRandom.hex
+       session[ :user_id ] = user.id
+       user.save
+       session[ :auth_token ] = user.token
     flash[:success] = 'Logged in successfully!'
     redirect_to root_url
 
-    # else
+    else
     # Create an error message.
-    # flash[ :danger ] = "Invalid email/password combination"
-    # render 'new'
+    
+     flash[ :danger ] = "Invalid email/password combination"
+     render 'new'
     end
 
 	def destroy
@@ -29,6 +30,7 @@ class SessionController < ApplicationController
 	      respond_to do |format|
 	        format.json { render json: { status: '200', message: 'logged out successfully' } }
 	      end
+	  end
 	  end
 	  
 
