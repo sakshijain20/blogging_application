@@ -11,20 +11,19 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= form.label :username %>
-    <%= form.text_field :username %>
-  </div>
+  
 
   <div class="field">
     <%= form.label :password %>
     <%= form.text_field :password %>
   </div>
+  
 
   <div class="field">
-    <%= form.label :role_id %>
-    <%= form.text_field :role_id %>
+    <%= form.label :role_id, class: 'form-label' %>
+    <%= form.select :role_id, options_for_select(Role.all.map{|r|[r.userrole, r.id]}) , class: 'form-control' %>
   </div>
+  
 
   <div class="field">
     <%= form.label :age %>
