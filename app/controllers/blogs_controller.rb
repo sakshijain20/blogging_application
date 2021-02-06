@@ -56,6 +56,7 @@ class BlogsController < ApplicationController
 
     else
       return head 404
+    end
   end
 
   # DELETE /blogs/1 or /blogs/1.json
