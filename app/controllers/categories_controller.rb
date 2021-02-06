@@ -1,6 +1,6 @@
 class CategoriesController < ApplicationController
   before_action :set_category, only: %i[ show edit update destroy ]
-  before_action :authenticate ,except: [:index,:show]
+  before_action :authenticate ,except: [:show,:create]
   # GET /categories or /categories.json
   def index
     @categories = Category.all
@@ -21,17 +21,24 @@ class CategoriesController < ApplicationController
 
   # POST /categories or /categories.json
   def create
-    @category = Category.new(category_params)
 
-    respond_to do |format|
-      if @category.save
-        format.html { redirect_to @category, notice: "Category was successfully created." }
-        format.json { render :show, status: :created, location: @category }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @category.errors, status: :unprocessable_entity }
-      end
+    if is_admin?
+        @category = Category.new(category_params)
+
+        respond_to do |format|
+          if @category.save
+            format.html { redirect_to @category, notice: "Category was successfully created." }
+            format.json { render :show, status: :created, location: @category }
+          else
+            format.html { render :new, status: :unprocessable_entity }
+            format.json { render json: @category.errors, status: :unprocessable_entity }
+          end
+        end
+    else
+        return head 404
     end
+
+
   end
 
   # PATCH/PUT /categories/1 or /categories/1.json
@@ -58,6 +65,18 @@ class CategoriesController < ApplicationController
 
   private
     # Use callbacks to share common setup or constraints between actions.
+    def is_admin?
+      current_member = User.find_by(id: session[:user_id])
+      if current_member.role.userrole == 'admin' 
+        return true 
+      else
+        return false
+      end
+    end
+
+
+
+
     def set_category
       @category = Category.find(params[:id])
     end
