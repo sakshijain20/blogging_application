@@ -1,14 +1,15 @@
+# frozen_string_literal: true
+
 class CategoriesController < ApplicationController
-  before_action :set_category, only: %i[ show edit update destroy ]
-  before_action :authenticate ,except: [:index,:show]
+  before_action :set_category, only: %i[show edit update destroy]
+  before_action :authenticate, except: %i[index show]
   # GET /categories or /categories.json
   def index
     @categories = Category.all
   end
 
   # GET /categories/1 or /categories/1.json
-  def show
-  end
+  def show; end
 
   # GET /categories/new
   def new
@@ -16,44 +17,40 @@ class CategoriesController < ApplicationController
   end
 
   # GET /categories/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /categories or /categories.json
   def create
-
     if is_admin?
-        @category = Category.new(category_params)
+      @category = Category.new(category_params)
 
-        respond_to do |format|
-          if @category.save
-            format.html { redirect_to @category, notice: "Category was successfully created." }
-            format.json { render :show, status: :created, location: @category }
-          else
-            format.html { render :new, status: :unprocessable_entity }
-            format.json { render json: @category.errors, status: :unprocessable_entity }
-          end
+      respond_to do |format|
+        if @category.save
+          format.html { redirect_to @category, notice: 'Category was successfully created.' }
+          format.json { render :show, status: :created, location: @category }
+        else
+          format.html { render :new, status: :unprocessable_entity }
+          format.json { render json: @category.errors, status: :unprocessable_entity }
         end
+      end
     else
-        return head 404
+      head 404
     end
-
-
   end
 
   # PATCH/PUT /categories/1 or /categories/1.json
   def update
     if is_admin?
-    respond_to do |format|
-      if @category.update(category_params)
-        format.html { redirect_to @category, notice: "Category was successfully updated." }
-        format.json { render :show, status: :ok, location: @category }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @category.errors, status: :unprocessable_entity }
+      respond_to do |format|
+        if @category.update(category_params)
+          format.html { redirect_to @category, notice: 'Category was successfully updated.' }
+          format.json { render :show, status: :ok, location: @category }
+        else
+          format.html { render :edit, status: :unprocessable_entity }
+          format.json { render json: @category.errors, status: :unprocessable_entity }
+        end
       end
     end
-  end
   end
 
   # DELETE /categories/1 or /categories/1.json
@@ -61,32 +58,26 @@ class CategoriesController < ApplicationController
     if is_admin?
       @category.destroy
       respond_to do |format|
-        format.html { redirect_to categories_url, notice: "Category was successfully destroyed." }
+        format.html { redirect_to categories_url, notice: 'Category was successfully destroyed.' }
         format.json { head :no_content }
       end
     end
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def is_admin?
-      current_member = User.find_by(id: session[:user_id])
-      if current_member.role.userrole == 'admin' 
-        return true 
-      else
-        return false
-      end
-    end
 
+  # Use callbacks to share common setup or constraints between actions.
+  def is_admin?
+    current_member = User.find_by(id: session[:user_id])
+    current_member.role.userrole == 'admin'
+  end
 
+  def set_category
+    @category = Category.find(params[:id])
+  end
 
-
-    def set_category
-      @category = Category.find(params[:id])
-    end
-
-    # Only allow a list of trusted parameters through.
-    def category_params
-      params.require(:category).permit(:cname)
-    end
+  # Only allow a list of trusted parameters through.
+  def category_params
+    params.require(:category).permit(:cname)
+  end
 end

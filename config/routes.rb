@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 Rails.application.routes.draw do
-  resources :blogs , :users , :categories
+  resources :blogs, :users, :categories
   root 'categories#index'
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
   get    'login'   => 'session#new'

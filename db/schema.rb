@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -10,46 +12,45 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_05_181018) do
-
-  create_table "blogs", force: :cascade do |t|
-    t.string "title"
-    t.integer "readtime"
-    t.integer "category_id", null: false
-    t.integer "user_id", null: false
-    t.string "image"
-    t.text "content"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["category_id"], name: "index_blogs_on_category_id"
-    t.index ["user_id"], name: "index_blogs_on_user_id"
+ActiveRecord::Schema.define(version: 20_210_205_181_018) do
+  create_table 'blogs', force: :cascade do |t|
+    t.string 'title'
+    t.integer 'readtime'
+    t.integer 'category_id', null: false
+    t.integer 'user_id', null: false
+    t.string 'image'
+    t.text 'content'
+    t.datetime 'created_at', precision: 6, null: false
+    t.datetime 'updated_at', precision: 6, null: false
+    t.index ['category_id'], name: 'index_blogs_on_category_id'
+    t.index ['user_id'], name: 'index_blogs_on_user_id'
   end
 
-  create_table "categories", force: :cascade do |t|
-    t.string "cname"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+  create_table 'categories', force: :cascade do |t|
+    t.string 'cname'
+    t.datetime 'created_at', precision: 6, null: false
+    t.datetime 'updated_at', precision: 6, null: false
   end
 
-  create_table "roles", force: :cascade do |t|
-    t.string "userrole"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+  create_table 'roles', force: :cascade do |t|
+    t.string 'userrole'
+    t.datetime 'created_at', precision: 6, null: false
+    t.datetime 'updated_at', precision: 6, null: false
   end
 
-  create_table "users", force: :cascade do |t|
-    t.string "username"
-    t.string "password"
-    t.integer "role_id", null: false
-    t.integer "age"
-    t.integer "contact"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.string "token"
-    t.index ["role_id"], name: "index_users_on_role_id"
+  create_table 'users', force: :cascade do |t|
+    t.string 'username'
+    t.string 'password'
+    t.integer 'role_id', null: false
+    t.integer 'age'
+    t.integer 'contact'
+    t.datetime 'created_at', precision: 6, null: false
+    t.datetime 'updated_at', precision: 6, null: false
+    t.string 'token'
+    t.index ['role_id'], name: 'index_users_on_role_id'
   end
 
-  add_foreign_key "blogs", "categories"
-  add_foreign_key "blogs", "users"
-  add_foreign_key "users", "roles"
+  add_foreign_key 'blogs', 'categories'
+  add_foreign_key 'blogs', 'users'
+  add_foreign_key 'users', 'roles'
 end
