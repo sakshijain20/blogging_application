@@ -12,7 +12,7 @@ class SessionController < ApplicationController
        user.token = SecureRandom.hex
        session[ :user_id ] = user.id
        user.save
-       session[ :auth_token ] = user.token
+       session[ :token ] = user.token
     flash[:success] = 'Logged in successfully!'
     redirect_to root_url
 

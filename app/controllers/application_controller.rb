@@ -8,7 +8,7 @@ class ApplicationController < ActionController::Base
 
     if current_member 
       request.headers['access-token'] = current_member.token
-      if request.headers.include?('access-token') || request.headers['access-token'] == session[:token] 
+      if request.headers.include?('access-token') && request.headers['access-token'] == session[:token] 
         # render :text => request.headers[‘access-token’]
         puts request.headers['access-token']
         true
