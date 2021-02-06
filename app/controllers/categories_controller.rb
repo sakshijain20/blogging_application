@@ -43,6 +43,7 @@ class CategoriesController < ApplicationController
 
   # PATCH/PUT /categories/1 or /categories/1.json
   def update
+    if is_admin?
     respond_to do |format|
       if @category.update(category_params)
         format.html { redirect_to @category, notice: "Category was successfully updated." }
@@ -53,13 +54,16 @@ class CategoriesController < ApplicationController
       end
     end
   end
+  end
 
   # DELETE /categories/1 or /categories/1.json
   def destroy
-    @category.destroy
-    respond_to do |format|
-      format.html { redirect_to categories_url, notice: "Category was successfully destroyed." }
-      format.json { head :no_content }
+    if is_admin?
+      @category.destroy
+      respond_to do |format|
+        format.html { redirect_to categories_url, notice: "Category was successfully destroyed." }
+        format.json { head :no_content }
+      end
     end
   end
 
